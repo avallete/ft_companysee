@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load badge_change_filter %}
 
 {% block content %}
     <div class="container" style="padding-top: 10%">
@@ -21,22 +22,42 @@
                                     <strong>EBITDA</strong>
                             </li>
                             {% for result in company.results %}
-                                <li class="list-group-item justify-content-between">
-                                    <strong class="text-muted">{{ result.date|date:'Y' }}</strong>
-                                    <div>
-                                        {{ result.ca }}
-                                    </div>
-                                    <div>
-                                        {{ result.margin }}
-                                    </div>
-                                    <div>
-                                        {{ result.loss }}
-                                    </div>
-                                    <div>
-                                        {{ result.ebitda }}
-                                    </div>
-                                </li>
-                            {% endfor %}
+                        <li class="list-group-item justify-content-between">
+                            <strong class="text-muted">{{ result.date|date:'Y' }}</strong>
+                            <div>
+                                {{ result.ca }}
+                                {% if result.previous %}
+                                    {{ result.ca|badge_change:result.previous.ca }}
+                                {% else %}
+                                    <span class="badge badge-info badge-pill">0</span>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {{ result.margin }}
+                                {% if result.previous %}
+                                    {{ result.margin|badge_change:result.previous.margin }}
+                                {% else %}
+                                    <span class="badge badge-info badge-pill">0</span>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {{ result.loss }}
+                                {% if result.previous %}
+                                    {{ result.loss|badge_change:result.previous.loss }}
+                                {% else %}
+                                    <span class="badge badge-info badge-pill">0</span>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {{ result.ebitda }}
+                                {% if result.previous %}
+                                    {{ result.ebitda|badge_change:result.previous.ebitda }}
+                                {% else %}
+                                    <span class="badge badge-info badge-pill">0</span>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
                         </ul>
                     </div>
                     <div class="card-footer text-muted">
