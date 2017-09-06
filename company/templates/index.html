@@ -1,9 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
-   <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-      </div>
-
+    <div class="container" style="padding-top: 10%">
+        {% if not data %}
+                <h1 class="display-3">No company found</h1>
+        {% endif %}
+        {% for company in data %}
+            <div style="padding-top: 2%;">
+                <div class="card text-center">
+                    <div class="card-header">
+                      <h4 class="card-title">{{ company.name|upper }}</h4>
+                    </div>
+                    <div class="card-block">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item justify-content-between bg-faded">
+                                    <strong>Year</strong>
+                                    <strong>CA</strong>
+                                    <strong>Margin</strong>
+                                    <strong>Loss</strong>
+                                    <strong>EBITDA</strong>
+                            </li>
+                            {% for result in company.results %}
+                                <li class="list-group-item justify-content-between">
+                                    <strong class="text-muted">{{ result.date|date:'Y' }}</strong>
+                                    <div>
+                                        {{ result.ca }}
+                                    </div>
+                                    <div>
+                                        {{ result.margin }}
+                                    </div>
+                                    <div>
+                                        {{ result.loss }}
+                                    </div>
+                                    <div>
+                                        {{ result.ebitda }}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="card-footer text-muted">
+                          <strong>Sector:</strong> {{ company.sector }}  --  <strong>Siren:</strong> {{ company.siren }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock content %}
