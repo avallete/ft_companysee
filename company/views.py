@@ -6,7 +6,7 @@ from models import Company
 
 
 def index(request):
-    companies = Company.objects.all()
+    companies = Company.objects.all().order_by('name')
     paginator = Paginator(companies, 10)
     if request.method == 'POST' and request.POST.get('search'):
         companies = companies.filter(name__icontains=request.POST.get('search'))

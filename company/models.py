@@ -11,7 +11,7 @@ class Company(models.Model):
 
     @property
     def results(self):
-        return CompanyResult.objects.filter(company=self)
+        return CompanyResult.objects.filter(company=self).order_by('-date')
 
 class CompanyResult(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
